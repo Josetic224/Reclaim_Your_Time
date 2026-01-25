@@ -255,6 +255,64 @@ body {
     text-align: center;
     margin-bottom: 20px;
     font-size: 1.1rem;
+    position: relative;
+}
+
+/* Gamified Text Reveal */
+.gamified-reveal {
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 3px solid var(--neon-green);
+    width: 0;
+    animation:
+        typewriter 1.5s steps(30, end) forwards,
+        blink 0.75s step-end infinite,
+        glitchText 3s infinite alternate-reverse;
+    margin: 0 auto;
+}
+
+@keyframes typewriter {
+    from {
+        width: 0
+    }
+
+    to {
+        width: 100%
+    }
+}
+
+@keyframes blink {
+
+    from,
+    to {
+        border-color: transparent
+    }
+
+    50% {
+        border-color: var(--neon-green)
+    }
+}
+
+@keyframes glitchText {
+    0% {
+        transform: skew(0deg);
+        text-shadow: 0 0 5px var(--neon-green);
+    }
+
+    20% {
+        transform: skew(1deg);
+        text-shadow: -2px 0 red, 2px 0 blue;
+    }
+
+    40% {
+        transform: skew(0deg);
+        text-shadow: 0 0 5px var(--neon-green);
+    }
+
+    100% {
+        transform: skew(-1deg);
+        text-shadow: 2px 0 red, -2px 0 blue;
+    }
 }
 
 .chart-container {
