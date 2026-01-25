@@ -57,23 +57,34 @@ async function fetchAndAggregateData() {
                 const isPass = status.includes("PASS");
 
                 if (!summary[name]) {
-                    summary[name] = { name, totalPoints: 0, cumulativeHours: 0, totalFines: 0, entries: 0, history: [], loggedDays: new Set() };
+                    summary[name] = {
+                        name, totalPoints: 0, cumulativeHours: 0, totalFines: 0,
+                        entries: 0, history: [], loggedDays: new Set(),
+                        dailyDetails: [], lastDayFailed: false
+                    };
                 }
                 summary[name].totalPoints += isPass ? PASS_POINTS : 0;
                 summary[name].cumulativeHours += hours;
                 summary[name].entries += 1;
                 summary[name].history.push(hours);
                 summary[name].loggedDays.add(dayNum);
+                summary[name].lastDayFailed = !isPass;
 
-                if (!isPass) summary[name].totalFines += FINE_AMOUNT;
+                if (!isPass) {
+                    summary[name].totalFines += FINE_AMOUNT;
+                    summary[name].dailyDetails.push(`Day ${dayNum}: Over Screen Limit (₦${FINE_AMOUNT})`);
+                }
             }
         }
 
         // Add fines for missing days
         Object.values(summary).forEach(user => {
+            user.missedDaysCount = 0;
             for (let d = 1; d <= currentMissionDay; d++) {
                 if (!user.loggedDays.has(d)) {
                     user.totalFines += FINE_AMOUNT;
+                    user.missedDaysCount = (user.missedDaysCount || 0) + 1;
+                    user.dailyDetails.push(`Day ${d}: Missing Mission Log (₦${FINE_AMOUNT})`);
                 }
             }
         });
@@ -127,6 +138,15 @@ function showStats(user) {
                     <span class="status-rank ${rankClass}">${rank}</span>
                     <p class="mission-critique">"${message}"</p>
                 </div>
+            </div>
+            <div class="fine-breakdown">
+                <div class="fine-summary-row">
+                    <span class="fine-stat">MISSED LOGS: <strong>${user.missedDaysCount}</strong></span>
+                    <span class="fine-stat">TOTAL FINES: <strong class="rank-fallen">₦${user.totalFines.toLocaleString()}</strong></span>
+                </div>
+                <ul class="fine-list">
+                    ${user.dailyDetails.map(d => `<li>${d}</li>`).join('')}
+                </ul>
             </div>
         </div>
     `;
@@ -189,7 +209,7 @@ function render(users) {
                 <span class="score-value">${user.totalPoints}</span>
                 <span class="score-label">POINTS</span>
             </div>
-            ${user.totalFines > 0 ? `<div class="fine-badge">FINED: ₦${user.totalFines.toLocaleString()}</div>` : ''}
+            ${user.lastDayFailed ? `<div class="fine-badge">FINED</div>` : ''}
         `;
         card.querySelector('.view-stats-btn').onclick = () => showStats(user);
         container.appendChild(card);

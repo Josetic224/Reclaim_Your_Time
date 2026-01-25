@@ -462,6 +462,48 @@ body {
     color: var(--coach-yellow) !important;
 }
 
+/* Fine Breakdown in Modal */
+.fine-breakdown {
+    background: rgba(255, 0, 60, 0.05);
+    border: 1px solid rgba(255, 0, 60, 0.2);
+    padding: 15px;
+    margin: 15px 0;
+}
+
+.fine-summary-row {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.fine-stat {
+    font-size: 0.7rem;
+    font-family: var(--font-header);
+    color: #666;
+}
+
+.fine-stat strong {
+    color: #fff;
+    margin-left: 5px;
+}
+
+.fine-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 120px;
+    overflow-y: auto;
+}
+
+.fine-list li {
+    font-size: 0.65rem;
+    color: #888;
+    padding: 4px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+}
+
 .mission-critique {
     font-size: 0.7rem;
     font-style: italic;
