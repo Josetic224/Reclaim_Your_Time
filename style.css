@@ -437,8 +437,14 @@ body {
     overflow: hidden;
     white-space: nowrap;
     border-right: 3px solid var(--coach-yellow);
-    width: 100%;
+    width: 0;
     animation: type-and-erase 6s steps(20) infinite;
+}
+
+@media (max-width: 480px) {
+    .coach-name {
+        font-size: 1.4rem;
+    }
 }
 
 @keyframes type-and-erase {
