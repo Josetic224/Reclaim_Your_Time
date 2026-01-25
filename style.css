@@ -430,11 +430,33 @@ body {
 .coach-name {
     font-family: var(--font-header);
     font-size: 2.2rem;
-    /* Increased size */
     font-weight: 900;
     color: #ffffff;
     text-shadow: 0 0 20px rgba(244, 188, 44, 0.4);
     margin: 5px 0;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 3px solid var(--coach-yellow);
+    width: 100%;
+    animation: type-and-erase 6s steps(20) infinite;
+}
+
+@keyframes type-and-erase {
+
+    0%,
+    10% {
+        width: 0;
+    }
+
+    40%,
+    60% {
+        width: 100%;
+    }
+
+    90%,
+    100% {
+        width: 0;
+    }
 }
 
 .coach-subtitle {
@@ -460,6 +482,62 @@ body {
 
 .yellow-text {
     color: var(--coach-yellow) !important;
+}
+
+/* Mad Holographic Control Room Animation */
+.hologram-title {
+    position: relative;
+    animation: holo-flicker 4s infinite;
+}
+
+.hologram-title::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(0deg, transparent 0%, var(--coach-yellow) 50%, transparent 100%);
+    background-size: 100% 20%;
+    background-repeat: no-repeat;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: scanning-bar 2s linear infinite;
+    filter: blur(2px);
+    opacity: 0.8;
+}
+
+@keyframes scanning-bar {
+    0% {
+        background-position: 0 -100%;
+    }
+
+    100% {
+        background-position: 0 200%;
+    }
+}
+
+@keyframes holo-flicker {
+
+    0%,
+    19%,
+    21%,
+    23%,
+    25%,
+    54%,
+    56%,
+    100% {
+        opacity: 1;
+        transform: scaleY(1) skewX(0);
+    }
+
+    20%,
+    24%,
+    55% {
+        opacity: 0.3;
+        transform: scaleY(1.1) skewX(10deg);
+        filter: hue-rotate(90deg);
+    }
 }
 
 /* Fine Breakdown in Modal */
