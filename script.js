@@ -169,11 +169,9 @@ function showStats(user) {
 
 function render(users) {
     const container = document.getElementById('leaderboard');
-    let fines = 0;
     container.innerHTML = '';
 
     users.forEach((user, index) => {
-        fines += user.totalFines;
         const dayLabel = user.entries === 1 ? 'DAY' : 'DAYS';
         const card = document.createElement('div');
         card.className = 'participant-card';
@@ -196,7 +194,6 @@ function render(users) {
         card.querySelector('.view-stats-btn').onclick = () => showStats(user);
         container.appendChild(card);
     });
-    document.getElementById('total-fines').innerText = `₦${fines.toLocaleString()}`;
 
     // Add Admin access link if not exists
     if (!document.getElementById('admin-link')) {
@@ -204,8 +201,8 @@ function render(users) {
         adminLink.id = 'admin-link';
         adminLink.href = 'admin.html';
         adminLink.innerText = 'MISSION OVERSIGHT (ADMIN)';
-        adminLink.style.cssText = 'display: block; font-size: 0.5rem; color: #333; margin-top: 10px; text-decoration: none; font-family: var(--font-header);';
-        document.querySelector('.chest-content').appendChild(adminLink);
+        adminLink.style.cssText = 'display: block; font-size: 0.5rem; color: #222; margin-top: 10px; text-decoration: none; font-family: var(--font-header); width: 100%; text-align: center;';
+        document.querySelector('.mission-hud').appendChild(adminLink);
     }
 }
 
