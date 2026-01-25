@@ -221,8 +221,10 @@ function render(users) {
         adminLink.id = 'admin-link';
         adminLink.href = 'admin.html';
         adminLink.innerText = 'MISSION OVERSIGHT (ADMIN)';
-        adminLink.style.cssText = 'display: block; font-size: 0.5rem; color: #222; margin-top: 10px; text-decoration: none; font-family: var(--font-header); width: 100%; text-align: center;';
-        document.querySelector('.mission-hud').appendChild(adminLink);
+        adminLink.style.cssText = 'display: block; font-size: 0.55rem; color: #555; margin: 40px auto 20px; text-decoration: none; font-family: var(--font-header); width: fit-content; text-align: center; opacity: 0.6; transition: 0.3s;';
+        adminLink.onmouseover = () => adminLink.style.opacity = '1';
+        adminLink.onmouseout = () => adminLink.style.opacity = '0.6';
+        document.body.appendChild(adminLink);
     }
 }
 
