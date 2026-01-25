@@ -1,0 +1,420 @@
+:root {
+    --bg: #050505;
+    --neon-green: #00ff95;
+    --neon-red: #ff003c;
+    --glass: rgba(255, 255, 255, 0.02);
+    --border: rgba(0, 255, 149, 0.3);
+    --font-main: 'Montserrat', sans-serif;
+    --font-header: 'Orbitron', sans-serif;
+
+    /* Coach Branding Tokens (Hardcoded for clarity) */
+    --coach-yellow: #f4bc2c;
+    --coach-forest: #0e362e;
+}
+
+body {
+    margin: 0;
+    background-color: var(--bg);
+    background-image: linear-gradient(rgba(0, 255, 149, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 149, 0.02) 1px, transparent 1px);
+    background-size: 30px 30px;
+    color: white;
+    font-family: var(--font-main);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    overflow-x: hidden;
+}
+
+/* Header Section */
+.mission-hud {
+    text-align: center;
+    margin-bottom: 30px;
+    width: 100%;
+}
+
+.metallic-text {
+    font-family: var(--font-header);
+    font-size: 2.2rem;
+    font-weight: 900;
+    text-shadow: 0 0 10px rgba(0, 255, 149, 0.5);
+    letter-spacing: 2px;
+    margin-bottom: 5px;
+}
+
+.status-row {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.neon-badge {
+    font-family: var(--font-header);
+    background: black;
+    color: var(--neon-green);
+    border: 1px solid var(--neon-green);
+    padding: 5px 15px;
+    font-size: 0.7rem;
+    box-shadow: 0 0 10px rgba(0, 255, 149, 0.2);
+}
+
+.countdown-timer {
+    font-family: var(--font-header);
+    color: #888;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+}
+
+.mission-tag {
+    font-size: 0.6rem;
+    letter-spacing: 5px;
+    color: #444;
+    margin-top: 15px;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+/* Search Box */
+.search-box {
+    position: relative;
+    width: 100%;
+    max-width: 450px;
+    margin-bottom: 25px;
+}
+
+#search-bar {
+    width: 100%;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--neon-green);
+    font-family: var(--font-header);
+    font-size: 0.8rem;
+    outline: none;
+    box-sizing: border-box;
+}
+
+/* Leaderboard Cards */
+.leaderboard-list {
+    width: 100%;
+    max-width: 500px;
+    margin-bottom: 120px;
+}
+
+.participant-card {
+    display: flex;
+    align-items: flex-start;
+    background: var(--glass);
+    border-left: 3px solid #333;
+    margin-bottom: 12px;
+    padding: 18px;
+    transition: 0.3s;
+    position: relative;
+}
+
+.fine-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: var(--neon-red);
+    color: black;
+    font-family: var(--font-header);
+    font-size: 0.55rem;
+    padding: 2px 8px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    box-shadow: -2px 2px 10px rgba(255, 0, 60, 0.3);
+}
+
+.participant-card:hover {
+    background: rgba(255, 255, 255, 0.04);
+    border-left-color: var(--neon-green);
+}
+
+.rank {
+    font-family: var(--font-header);
+    font-size: 1.3rem;
+    width: 45px;
+    color: #444;
+    margin-top: 5px;
+}
+
+/* The De-Clustering Fix */
+.info {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.name {
+    font-size: 1.1rem;
+    font-weight: 900;
+    letter-spacing: 1px;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.usage-row {
+    display: flex;
+    gap: 15px;
+}
+
+.stat-item {
+    font-family: var(--font-header);
+    font-size: 0.65rem;
+    color: #666;
+    letter-spacing: 1px;
+}
+
+.stat-item strong {
+    color: #aaa;
+}
+
+.view-stats-btn {
+    align-self: flex-start;
+    background: transparent;
+    border: 1px solid var(--neon-green);
+    color: var(--neon-green);
+    font-family: var(--font-header);
+    font-size: 0.6rem;
+    padding: 6px 12px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: 0.2s;
+}
+
+.view-stats-btn:hover {
+    background: var(--neon-green);
+    color: black;
+    box-shadow: 0 0 10px var(--neon-green);
+}
+
+.score-zone {
+    text-align: right;
+    min-width: 60px;
+}
+
+.score-value {
+    display: block;
+    font-family: var(--font-header);
+    font-size: 1.6rem;
+    color: var(--neon-green);
+    line-height: 1;
+}
+
+.score-label {
+    font-size: 0.5rem;
+    color: #444;
+    font-weight: 900;
+    margin-top: 5px;
+}
+
+/* Modal */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.92);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: #050505;
+    border: 1px solid var(--neon-green);
+    padding: 30px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.neon-text-glitch {
+    font-family: var(--font-header);
+    color: var(--neon-green);
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+}
+
+.chart-container {
+    width: 100%;
+    height: 260px;
+}
+
+/* Footer */
+.war-chest {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: #000;
+    border-top: 1px solid var(--border);
+    padding: 15px;
+    text-align: center;
+    z-index: 90;
+}
+
+.chest-label {
+    font-size: 0.6rem;
+    color: #555;
+    letter-spacing: 2px;
+    font-weight: 800;
+}
+
+.chest-value {
+    display: block;
+    font-family: var(--font-header);
+    font-size: 1.6rem;
+    color: var(--neon-red);
+}
+
+/* Status Badges in Modal */
+.status-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px dashed #333;
+}
+
+.status-text-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.status-label {
+    font-size: 0.5rem;
+    color: #666;
+    letter-spacing: 2px;
+}
+
+.status-rank {
+    font-family: var(--font-header);
+    font-size: 1.2rem;
+    font-weight: 900;
+}
+
+/* Rank Colors */
+.rank-vanguard {
+    color: var(--neon-green);
+    text-shadow: 0 0 10px rgba(0, 255, 149, 0.4);
+}
+
+.rank-neutral {
+    color: #ffca28;
+    text-shadow: 0 0 10px rgba(255, 202, 40, 0.4);
+}
+
+.rank-fallen {
+    color: var(--neon-red);
+    text-shadow: 0 0 10px rgba(255, 0, 60, 0.4);
+}
+
+/* Coach Profile Styles */
+/* Coach Profile Styles - Scoped for High Visibility */
+.coach-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 40px;
+    border: 2px solid var(--coach-yellow);
+    padding: 30px;
+    background: linear-gradient(to bottom, var(--coach-forest), #000);
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+}
+
+.coach-header::before {
+    content: "AUTHORIZED PERSONNEL ONLY";
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    font-size: 0.5rem;
+    color: var(--coach-yellow);
+    opacity: 0.6;
+    font-family: var(--font-header);
+    letter-spacing: 1px;
+}
+
+.coach-title {
+    font-family: var(--font-header);
+    color: var(--coach-yellow);
+    font-size: 0.9rem;
+    letter-spacing: 4px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.coach-name {
+    font-family: var(--font-header);
+    font-size: 2.2rem;
+    /* Increased size */
+    font-weight: 900;
+    color: #ffffff;
+    text-shadow: 0 0 20px rgba(244, 188, 44, 0.4);
+    margin: 5px 0;
+}
+
+.coach-subtitle {
+    font-size: 1.2rem;
+    /* Much larger and more visible */
+    color: #ffffff !important;
+    /* Force pure white */
+    letter-spacing: 2px;
+    margin-top: 12px;
+    font-weight: 800;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    text-transform: uppercase;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 8px 20px;
+    border-radius: 4px;
+    border: 1px solid rgba(244, 188, 44, 0.2);
+}
+
+.yellow-badge {
+    border-color: var(--coach-yellow) !important;
+    color: var(--coach-yellow) !important;
+}
+
+.yellow-text {
+    color: var(--coach-yellow) !important;
+}
+
+.mission-critique {
+    font-size: 0.7rem;
+    font-style: italic;
+    color: #888;
+    margin-top: 5px;
+    line-height: 1.4;
+}
+
+/* Recovery Status Style */
+.rank-recovery {
+    color: #00d4ff;
+    /* Cyber Blue */
+    text-shadow: 0 0 10px rgba(0, 212, 255, 0.4);
+}

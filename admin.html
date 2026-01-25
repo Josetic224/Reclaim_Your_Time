@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELIZABETH'S CONTROL ROOM | MISSION OVERSIGHT</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Montserrat:wght@400;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .admin-container {
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 50px;
+        }
+
+        .day-section {
+            background: var(--glass);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 25px;
+            padding: 20px;
+        }
+
+        .day-header {
+            font-family: var(--font-header);
+            color: var(--neon-green);
+            font-size: 1.2rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .missed-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+        }
+
+        .missed-card {
+            background: rgba(255, 0, 60, 0.05);
+            border: 1px solid rgba(255, 0, 60, 0.2);
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .missed-name {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .missed-reason {
+            font-size: 0.6rem;
+            color: var(--neon-red);
+            font-family: var(--font-header);
+        }
+
+        .nav-link {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            color: var(--neon-green);
+            text-decoration: none;
+            font-family: var(--font-header);
+            font-size: 0.7rem;
+            border: 1px solid var(--neon-green);
+            padding: 5px 10px;
+            z-index: 100;
+        }
+
+        .summary-stats {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .stat-box {
+            flex: 1;
+            background: var(--glass);
+            padding: 15px;
+            border-top: 2px solid var(--accent-yellow);
+            text-align: center;
+        }
+
+        .stat-box.fail {
+            border-top-color: var(--neon-red);
+        }
+
+        .stat-label {
+            display: block;
+            font-size: 0.6rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .stat-num {
+            font-family: var(--font-header);
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <a href="index.html" class="nav-link">
+        < RETURN TO MISSION CONTROL</a>
+
+            <div class="mission-hud">
+                <div class="coach-header">
+                    <span class="coach-title">MISSION COMMANDER</span>
+                    <span class="coach-name">ELIZABETH AKANDE</span>
+                    <span class="coach-subtitle">EMOTIONAL INTELLIGENCE COACH</span>
+                </div>
+                <h1 class="metallic-text yellow-text" data-text="CONTROL ROOM">CONTROL ROOM</h1>
+                <p class="mission-tag">SOCIAL MEDIA ACCOUNTABILITY CHALLENGE</p>
+            </div>
+
+            <div class="summary-stats" id="admin-summary" style="display: none;">
+                <div class="stat-box">
+                    <span class="stat-label">TOTAL WARRIORS</span>
+                    <span class="stat-num" id="total-warriors">0</span>
+                </div>
+                <div class="stat-box fail">
+                    <span class="stat-label">TOTAL CASUALTY FINES</span>
+                    <span class="stat-num" id="admin-total-fines">₦0</span>
+                </div>
+            </div>
+
+            <div id="access-overlay" class="modal-overlay" style="display: flex;">
+                <div class="modal-content" style="text-align: center; border-color: var(--accent-yellow);">
+                    <h2 class="neon-text-glitch yellow-text">COACH AUTHORIZATION</h2>
+                    <p class="mission-tag" style="margin-bottom: 20px;">VERIFYING CREDENTIALS FOR ELIZABETH</p>
+                    <input type="password" id="admin-pass" placeholder="ENTER ACCESS KEY..."
+                        style="width: 100%; padding: 10px; background: #111; border: 1px solid var(--accent-yellow); color: var(--accent-yellow); text-align: center; font-family: var(--font-header); margin-bottom: 20px;">
+                    <button id="auth-btn" class="view-stats-btn yellow-badge" style="width: 100%;">AUTHENTICATE</button>
+                    <p id="auth-error"
+                        style="color: var(--neon-red); font-size: 0.6rem; margin-top: 10px; display: none;">ACCESS
+                        DENIED: IDENTITY UNVERIFIED</p>
+                </div>
+            </div>
+
+            <main class="admin-container" id="admin-content" style="display: none;">
+                <div class="loading-state">DECRYPTING MISSION LOGS...</div>
+            </main>
+
+            <script src="admin.js"></script>
+</body>
+
+</html>

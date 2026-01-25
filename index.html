@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RECLAIM UR TIME | MISSION CONTROL</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Montserrat:wght@400;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+    <div class="mission-hud">
+        <div class="glitch-wrapper">
+            <h1 class="metallic-text" data-text="RECLAIM UR TIME">RECLAIM UR TIME</h1>
+        </div>
+        <div class="status-row">
+            <div id="current-day-display" class="neon-badge">INITIALIZING...</div>
+            <div class="countdown-timer" id="countdown">00:00:00:00</div>
+        </div>
+        <p class="mission-tag">TERMINATE DIGITAL ADDICTION</p>
+    </div>
+
+    <div class="search-box">
+        <input type="text" id="search-bar" placeholder="LOCATE WARRIOR...">
+        <div class="scan-line"></div>
+    </div>
+
+    <main id="leaderboard" class="leaderboard-list">
+        <div class="loading-state">ENCRYPTING DATA...</div>
+    </main>
+
+    <div id="stats-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button id="close-modal" class="close-btn">&times;</button>
+            <h2 id="modal-name" class="neon-text-glitch">WARRIOR STATS</h2>
+            <div class="chart-container">
+                <canvas id="usageChart"></canvas>
+            </div>
+            <p class="modal-hint">MISSION PROGRESS LOGS</p>
+        </div>
+    </div>
+
+    <footer class="war-chest">
+        <div class="chest-content">
+            <span class="chest-label">CASUALTY FINES (GROUP POOL)</span>
+            <span class="chest-value" id="total-fines">₦0</span>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
