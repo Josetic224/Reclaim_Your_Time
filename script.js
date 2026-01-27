@@ -2,6 +2,16 @@ const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSvv1HPLpH6DT
 const FINE_AMOUNT = 500;
 const PASS_POINTS = 10;
 const START_DATE = new Date("2026-01-26T00:00:00");
+const MASTER_WARRIORS = [
+    "Oluwaseun Ope",
+    "Wealth",
+    "Damotu Nanighe Major",
+    "Noel Uba",
+    "Osayande Divine",
+    "Akande Mary Ayobami",
+    "Urowayinor Joan",
+    "Jacob Success Ekpe"
+];
 let chartInstance = null;
 
 document.addEventListener('DOMContentLoaded', init);
@@ -41,34 +51,53 @@ async function fetchAndAggregateData() {
         const rows = csvText.split('\n').filter(row => row.trim() !== '');
         const summary = {};
 
+        // 1. Initialize with Master List
+        MASTER_WARRIORS.forEach(name => {
+            summary[name] = {
+                name, totalPoints: 0, cumulativeHours: 0, totalFines: 0,
+                entries: 0, history: [], loggedDays: new Set(),
+                dailyDetails: [], lastDayFailed: false
+            };
+        });
+
         const now = new Date();
         const diff = now - START_DATE;
         const currentMissionDay = Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24)));
 
         for (let i = 1; i < rows.length; i++) {
             const cols = rows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-            if (cols[1]) {
+            if (cols[0] && cols[1]) {
+                const timestamp = new Date(cols[0]);
                 const name = cols[1].replace(/"/g, '').trim();
-                const hours = parseFloat(cols[3].replace(/[^0-9.]/g, '')) || 0;
-                const status = cols[7] ? cols[7].trim().toUpperCase() : "FAIL";
+
+                // Calculate which mission day it was when this was submitted
+                const submitDiff = timestamp - START_DATE;
+                const dayOfSubmission = Math.max(0, Math.ceil(submitDiff / (1000 * 60 * 60 * 24)));
+
                 const dayText = cols[2] ? cols[2].trim() : "";
                 const dayMatch = dayText.match(/\d+/);
                 const dayNum = dayMatch ? parseInt(dayMatch[0]) : 0;
+
+                // VALIDATION: Strict midnight lock. No grace period.
+                // A log is only valid if it was submitted ON the day it reports for.
+                if (dayOfSubmission > dayNum) continue;
+
+                if (!summary[name]) continue;
+
+                const hours = parseFloat(cols[3].replace(/[^0-9.]/g, '')) || 0;
+                const status = cols[7] ? cols[7].trim().toUpperCase() : "FAIL";
                 const isPass = status.includes("PASS");
 
-                if (!summary[name]) {
-                    summary[name] = {
-                        name, totalPoints: 0, cumulativeHours: 0, totalFines: 0,
-                        entries: 0, history: [], loggedDays: new Set(),
-                        dailyDetails: [], lastDayFailed: false
-                    };
-                }
                 summary[name].totalPoints += isPass ? PASS_POINTS : 0;
                 summary[name].cumulativeHours += hours;
                 summary[name].entries += 1;
                 summary[name].history.push(hours);
                 summary[name].loggedDays.add(dayNum);
-                summary[name].lastDayFailed = !isPass;
+
+                // Track failure only if it's the latest mission day
+                if (dayNum === currentMissionDay) {
+                    summary[name].lastDayFailed = !isPass;
+                }
 
                 if (!isPass) {
                     summary[name].totalFines += FINE_AMOUNT;
@@ -85,11 +114,17 @@ async function fetchAndAggregateData() {
                     user.totalFines += FINE_AMOUNT;
                     user.missedDaysCount = (user.missedDaysCount || 0) + 1;
                     user.dailyDetails.push(`Day ${d}: Missing Mission Log (₦${FINE_AMOUNT})`);
+                    // If they missed the most recent day, mark as failed for the "FINED" tag
+                    if (d === currentMissionDay) user.lastDayFailed = true;
                 }
             }
         });
 
-        return Object.values(summary).sort((a, b) => b.totalPoints - a.totalPoints || a.cumulativeHours - b.cumulativeHours);
+        return Object.values(summary).sort((a, b) =>
+            b.totalPoints - a.totalPoints ||
+            b.entries - a.entries ||
+            a.cumulativeHours - b.cumulativeHours
+        );
     } catch (e) { return []; }
 }
 

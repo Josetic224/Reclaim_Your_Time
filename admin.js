@@ -2,6 +2,17 @@ const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSvv1HPLpH6DT
 const FINE_AMOUNT = 500;
 const START_DATE = new Date("2026-01-26T00:00:00");
 
+const MASTER_WARRIORS = [
+    "Oluwaseun Ope",
+    "Wealth",
+    "Damotu Nanighe Major",
+    "Noel Uba",
+    "Osayande Divine",
+    "Akande Mary Ayobami",
+    "Urowayinor Joan",
+    "Jacob Success Ekpe"
+];
+
 const ACCESS_KEY = "ADMIN123"; // Change this to your preferred secret key
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -39,7 +50,7 @@ async function fetchRawData() {
         const csvText = await response.text();
         const rows = csvText.split('\n').filter(row => row.trim() !== '');
 
-        const participants = new Set();
+        const participants = MASTER_WARRIORS; // Source of truth
         const dailyLogs = {}; // { dayNumber: { name: { status: 'PASS'/'FAIL' } } }
 
         // Process rows
@@ -53,8 +64,6 @@ async function fetchRawData() {
                 const status = cols[7] ? cols[7].trim().toUpperCase() : "FAIL";
                 const isPass = status.includes("PASS");
 
-                participants.add(name);
-
                 if (dayNum) {
                     if (!dailyLogs[dayNum]) dailyLogs[dayNum] = {};
                     dailyLogs[dayNum][name] = isPass ? 'PASS' : 'FAIL';
@@ -63,7 +72,7 @@ async function fetchRawData() {
         }
 
         return {
-            participants: Array.from(participants),
+            participants: MASTER_WARRIORS,
             dailyLogs,
             totalRows: rows.length - 1
         };
