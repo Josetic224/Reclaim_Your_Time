@@ -15,6 +15,20 @@ const MASTER_WARRIORS = [
 
 const ACCESS_KEY = "ADMIN123"; // Change this to your preferred secret key
 
+function getPaidFines() {
+    const paid = localStorage.getItem('paid_fines');
+    return paid ? JSON.parse(paid) : {};
+}
+
+function toggleFinePaid(day, name) {
+    const paid = getPaidFines();
+    const key = `day${day}_${name}`;
+    paid[key] = !paid[key];
+    localStorage.setItem('paid_fines', JSON.stringify(paid));
+    location.reload(); // Refresh to update totals
+}
+
+
 document.addEventListener('DOMContentLoaded', () => {
     const authBtn = document.getElementById('auth-btn');
     const passInput = document.getElementById('admin-pass');
@@ -56,17 +70,33 @@ async function fetchRawData() {
         // Process rows
         for (let i = 1; i < rows.length; i++) {
             const cols = rows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-            if (cols[1]) {
+            if (cols[0] && cols[1]) {
+                const timestamp = new Date(cols[0]);
                 const name = cols[1].replace(/"/g, '').trim();
+
+                // 1. Calculate mission day at submission time
+                const submitDiff = timestamp - START_DATE;
+                const dayOfSubmission = Math.max(0, Math.ceil(submitDiff / (1000 * 60 * 60 * 24)));
+
                 const dayText = cols[2] ? cols[2].trim() : "";
                 const dayMatch = dayText.match(/\d+/);
                 const dayNum = dayMatch ? parseInt(dayMatch[0]) : null;
-                const status = cols[7] ? cols[7].trim().toUpperCase() : "FAIL";
-                const isPass = status.includes("PASS");
+
+                // 2. Strict Midnight Lock
+                if (dayOfSubmission > dayNum) continue;
+
+                // 3. Case-insensitive name matching
+                const matchedName = MASTER_WARRIORS.find(mw => mw.toLowerCase() === name.toLowerCase());
+                if (!matchedName) continue;
+
+                const hours = parseFloat(cols[3].replace(/[^0-9.]/g, '')) || 0;
+
+                // 4. Auto-calculate status (fixed for empty columns)
+                const isPass = hours <= 2.0 && hours > 0;
 
                 if (dayNum) {
                     if (!dailyLogs[dayNum]) dailyLogs[dayNum] = {};
-                    dailyLogs[dayNum][name] = isPass ? 'PASS' : 'FAIL';
+                    dailyLogs[dayNum][matchedName] = isPass ? 'PASS' : 'FAIL';
                 }
             }
         }
@@ -108,6 +138,8 @@ function renderAdmin(data) {
         return;
     }
 
+    const paidFines = getPaidFines();
+
     for (let d = 1; d <= maxDayToShow; d++) {
         const daySection = document.createElement('div');
         daySection.className = 'day-section';
@@ -116,12 +148,12 @@ function renderAdmin(data) {
 
         participants.forEach(name => {
             const log = dailyLogs[d] ? dailyLogs[d][name] : null;
-            if (!log) {
-                missedParticipants.push({ name, reason: 'NO LOG' });
-                totalFinePool += FINE_AMOUNT;
-            } else if (log === 'FAIL') {
-                missedParticipants.push({ name, reason: 'FAILED' });
-                totalFinePool += FINE_AMOUNT;
+            const isPaid = paidFines[`day${d}_${name}`];
+
+            if (!log || log === 'FAIL') {
+                const reason = !log ? 'NO LOG' : 'FAILED';
+                missedParticipants.push({ name, reason, isPaid });
+                if (!isPaid) totalFinePool += FINE_AMOUNT;
             }
         });
 
@@ -141,9 +173,12 @@ function renderAdmin(data) {
                 </div>
                 <div class="missed-list">
                     ${missedParticipants.map(p => `
-                        <div class="missed-card">
-                            <span class="missed-name">${p.name}</span>
-                            <span class="missed-reason">${p.reason}</span>
+                        <div class="missed-card ${p.isPaid ? 'paid-card' : ''}" onclick="toggleFinePaid(${d}, '${p.name}')" style="cursor: pointer;">
+                            <div style="display: flex; flex-direction: column;">
+                                <span class="missed-name">${p.name}</span>
+                                <span class="missed-reason">${p.reason}</span>
+                            </div>
+                            <span class="settle-badge">${p.isPaid ? 'PAID ✅' : 'SETTLE'}</span>
                         </div>
                     `).join('')}
                 </div>
