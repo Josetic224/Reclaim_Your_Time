@@ -82,26 +82,31 @@ async function fetchAndAggregateData() {
                 // A log is only valid if it was submitted ON the day it reports for.
                 if (dayOfSubmission > dayNum) continue;
 
-                if (!summary[name]) continue;
+                // Case-insensitive name matching with the master list
+                const matchedName = MASTER_WARRIORS.find(mw => mw.toLowerCase() === name.toLowerCase());
+                if (!matchedName) continue;
 
                 const hours = parseFloat(cols[3].replace(/[^0-9.]/g, '')) || 0;
-                const status = cols[7] ? cols[7].trim().toUpperCase() : "FAIL";
-                const isPass = status.includes("PASS");
 
-                summary[name].totalPoints += isPass ? PASS_POINTS : 0;
-                summary[name].cumulativeHours += hours;
-                summary[name].entries += 1;
-                summary[name].history.push(hours);
-                summary[name].loggedDays.add(dayNum);
+                // AUTO-CALCULATE: Pass if <= 2 hrs. This fixes issues with empty columns in the sheet.
+                const isPass = hours <= 2.0 && hours > 0;
 
-                // Track failure only if it's the latest mission day
+                // Stop duplicate logs from adding points multiple times
+                if (summary[matchedName].loggedDays.has(dayNum)) continue;
+
+                summary[matchedName].totalPoints += isPass ? PASS_POINTS : 0;
+                summary[matchedName].cumulativeHours += hours;
+                summary[matchedName].entries += 1;
+                summary[matchedName].history.push(hours);
+                summary[matchedName].loggedDays.add(dayNum);
+
                 if (dayNum === currentMissionDay) {
-                    summary[name].lastDayFailed = !isPass;
+                    summary[matchedName].lastDayFailed = !isPass;
                 }
 
                 if (!isPass) {
-                    summary[name].totalFines += FINE_AMOUNT;
-                    summary[name].dailyDetails.push(`Day ${dayNum}: Over Screen Limit (₦${FINE_AMOUNT})`);
+                    summary[matchedName].totalFines += FINE_AMOUNT;
+                    summary[matchedName].dailyDetails.push(`Day ${dayNum}: Over Screen Limit (₦${FINE_AMOUNT})`);
                 }
             }
         }
