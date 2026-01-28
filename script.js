@@ -249,7 +249,6 @@ function render(users) {
                 <span class="score-value">${user.totalPoints}</span>
                 <span class="score-label">POINTS</span>
             </div>
-            ${user.lastDayFailed ? `<div class="fine-badge">FINED</div>` : ''}
         `;
         card.querySelector('.view-stats-btn').onclick = () => showStats(user);
         container.appendChild(card);
