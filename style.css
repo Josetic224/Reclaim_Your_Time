@@ -417,6 +417,37 @@ body {
     letter-spacing: 1px;
 }
 
+/* Settlement Ledger Styles */
+.paid-card {
+    border-color: var(--neon-green) !important;
+    background: rgba(0, 255, 149, 0.05) !important;
+    opacity: 0.8;
+}
+
+.settle-badge {
+    font-family: var(--font-header);
+    font-size: 0.5rem;
+    padding: 2px 6px;
+    border: 1px solid var(--neon-red);
+    color: var(--neon-red);
+    transition: 0.2s;
+}
+
+.paid-card .settle-badge {
+    border-color: var(--neon-green);
+    color: var(--neon-green);
+}
+
+.missed-card:hover .settle-badge {
+    background: var(--neon-red);
+    color: black;
+}
+
+.paid-card:hover .settle-badge {
+    background: var(--neon-green);
+    color: black;
+}
+
 .coach-title {
     font-family: var(--font-header);
     color: var(--coach-yellow);
