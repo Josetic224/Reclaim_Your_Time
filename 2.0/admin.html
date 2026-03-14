@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OVERSEER LOG | ELIZABETH'S DOMAIN</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Background Animation Canvas -->
+    <div class="bg-canvas">
+        <div class="orb orb-cyan"></div>
+        <div class="orb orb-magenta"></div>
+    </div>
+
+    <!-- Access Overlay Modal -->
+    <div id="access-overlay" class="modal-overlay" style="display: flex;">
+        <div class="modal-glass" style="max-width: 450px; text-align: center; border-color: var(--yellow);">
+            <div style="font-size: 3rem; margin-bottom: 20px;">👁️</div>
+            <h2 class="hologram-title yellow-title" style="font-size: 1.5rem; letter-spacing: 2px;">OVERSEER
+                AUTHORIZATION</h2>
+            <div class="mission-tag" style="margin-bottom: 25px;">SCANNING CREDENTIALS: ELIZABETH AKANDE</div>
+
+            <input type="password" id="admin-pass" placeholder="ENTER MASTER KEY..." class="search-input"
+                style="text-align: center; border-color: var(--yellow); font-family: var(--font-header); letter-spacing: 5px; margin-bottom: 20px;">
+
+            <button id="auth-btn" class="action-btn"
+                style="background: rgba(250, 204, 21, 0.1); border-color: var(--yellow); color: var(--yellow);">
+                AUTHENTICATE
+            </button>
+            <p id="auth-error"
+                style="color: var(--red); font-family: var(--font-header); font-size: 0.75rem; margin-top: 15px; display: none;">
+                ACCESS DENIED: ANOMALY DETECTED
+            </p>
+        </div>
+    </div>
+
+    <!-- Main Navigation & Header -->
+    <a href="index.html" class="admin-link nav-back" style="position: absolute; top: 20px; left: 20px; margin-top: 0;">
+        < RETURN TO GRID </a>
+
+            <div class="app-container" id="admin-dashboard" style="display: none;">
+                <header class="mission-hud">
+                    <div
+                        style="font-family: monospace; color: var(--text-muted); font-size: 0.8rem; margin-bottom: 5px;">
+                        AUTHORIZATION DETECTED:</div>
+                    <div class="typewriter-container">
+                        <h1 class="hologram-title yellow-title typewriter-text">AKANDE ELIZABETH</h1>
+                    </div>
+                    <div class="mission-tag" style="margin-top: 5px;">MASTER CONTROL RECORD // VISUAL OVERSIGHT
+                    </div>
+                </header>
+
+                <!-- Analytics Panels -->
+                <div class="stat-grid">
+                    <div class="stat-panel">
+                        <span
+                            style="font-family: var(--font-header); letter-spacing: 2px; color: var(--text-muted); font-size: 0.8rem; display: block; margin-bottom: 15px;">TOTAL
+                            SUBJECTS</span>
+                        <span style="font-family: var(--font-header); font-size: 3rem; color: var(--cyan);"
+                            id="total-warriors">0</span>
+                    </div>
+                    <div class="stat-panel" style="border-top: 2px solid var(--red);">
+                        <span
+                            style="font-family: var(--font-header); letter-spacing: 2px; color: var(--text-muted); font-size: 0.8rem; display: block; margin-bottom: 15px;">TOTAL
+                            PENALTIES LOGGED</span>
+                        <span style="font-family: var(--font-header); font-size: 3rem; color: var(--red);"
+                            id="admin-total-fines">₦0</span>
+                    </div>
+                </div>
+
+                <div
+                    style="font-family: var(--font-header); color: var(--yellow); font-size: 1.2rem; margin-bottom: 20px;">
+                    > INVESTIGATING CASUALTIES
+                </div>
+
+                <!-- Main Day List Container -->
+                <main id="admin-content" class="day-grid">
+                    <div class="loading">CONNECTING TO DATABASE...</div>
+                </main>
+            </div>
+
+            <script src="admin.js"></script>
+</body>
+
+</html>

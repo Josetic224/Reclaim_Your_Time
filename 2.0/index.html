@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RECLAIM UR TIME 2.0 | APEX PROTOCOL</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <!-- Intro Animation Overlay -->
+    <div id="intro-screen" class="intro-overlay">
+        <h1 class="hologram-title intro-title">RECLAIM UR TIME</h1>
+        <div class="powered-by">
+            <span class="powered-text">POWERED BY</span>
+            <img src="TheCompass-transparent.png" alt="The Compass" class="intro-logo">
+        </div>
+    </div>
+
+    <!-- Background Animation Canvas -->
+    <div class="bg-canvas">
+        <div class="orb orb-cyan"></div>
+        <div class="orb orb-magenta"></div>
+        <div class="orb orb-yellow"></div>
+    </div>
+
+    <div class="app-container">
+        <!-- Main HUD Header -->
+        <header class="mission-hud">
+            <h1 class="hologram-title">RECLAIM UR TIME</h1>
+            <div class="status-row">
+                <div id="current-day-display" class="neon-badge">SYSTEM BOOT SEQUENCE...</div>
+                <div class="timer-badge" id="countdown">SYNC: 00:00:00</div>
+            </div>
+            <div class="mission-tag" style="margin-bottom: 25px;">APEX PROTOCOL V2.0 // TERMINATE DIGITAL ADDICTION
+            </div>
+            <div style="display: flex; justify-content: center; align-items: center; gap: 15px; opacity: 1;">
+                <span style="font-family: var(--font-header); font-size: 1rem; letter-spacing: 2px;">POWERED
+                    BY</span>
+                <img src="TheCompass-transparent.png" alt="The Compass"
+                    style="height: 100px; filter: grayscale(100%) brightness(1.7);">
+            </div>
+        </header>
+
+        <!-- Search Array -->
+        <div class="search-wrapper">
+            <input type="text" id="search-bar" class="search-input" placeholder="LOCATE WARRIOR ENTITY...">
+        </div>
+
+        <div style="margin-bottom: 20px; font-family: var(--font-header); opacity: 0.7; letter-spacing: 2px;">
+            > ACTIVE WARRIOR DATABASE
+        </div>
+
+        <!-- Leaderboard Grid -->
+        <main id="leaderboard" class="leaderboard-grid">
+            <div class="loading">DECRYPTING WARRIOR LOGS...</div>
+        </main>
+
+        <div style="text-align: center;">
+            <a href="admin.html" class="admin-link">ACCESS OVERSIGHT TERMINAL</a>
+        </div>
+    </div>
+
+    <!-- Analytics Modal -->
+    <div id="stats-modal" class="modal-overlay">
+        <div class="modal-glass">
+            <button id="close-modal" class="close-btn">&times;</button>
+            <div id="modal-content-inject">
+                <!-- User stats injected here via JS -->
+            </div>
+            <div class="chart-box">
+                <canvas id="usageChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
