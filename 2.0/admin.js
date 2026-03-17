@@ -59,6 +59,23 @@ async function initAdmin() {
     renderAdmin(data);
 }
 
+function parseTimeString(val) {
+    if (!val) return 0;
+    const s = val.toString().toLowerCase().trim();
+    if (s.includes(':')) {
+        const parts = s.split(':');
+        return (parseFloat(parts[0]) || 0) + ((parseFloat(parts[1]) || 0) / 60);
+    }
+    const hrMatch = s.match(/([0-9.]+)\s*(h|hr|hrs|hour|hours)/);
+    const minMatch = s.match(/([0-9.]+)\s*(m|min|mins|minute|minutes)/);
+    if (hrMatch || minMatch) {
+        let h = hrMatch ? parseFloat(hrMatch[1]) : 0;
+        let m = minMatch ? parseFloat(minMatch[1]) : 0;
+        return h + (m / 60);
+    }
+    return parseFloat(s.replace(/[^0-9.]/g, '')) || 0;
+}
+
 async function fetchRawData() {
     try {
         const response = await fetch(SHEET_URL);
@@ -86,7 +103,7 @@ async function fetchRawData() {
                 const matchedName = MASTER_WARRIORS.find(mw => mw.toLowerCase() === name.toLowerCase());
                 if (!matchedName) continue;
 
-                const hours = parseFloat(cols[3].replace(/[^0-9.]/g, '')) || 0;
+                const hours = parseTimeString(cols[3]);
                 const isPass = hours <= 2.0 && hours > 0;
 
                 if (dayNum) {
