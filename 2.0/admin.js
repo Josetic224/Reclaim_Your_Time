@@ -136,6 +136,8 @@ function renderAdmin(data) {
 
     const now = new Date();
     const diff = now - START_DATE;
+    const currentMissionDay = Math.floor(diff / (1000 * 60 * 60 * 24)) + 1; // If it's the 14th, diff is ~0, floor is 0 + 1 = day 1.
+
     // We only show days that have FULLY passed (yesterday and beyond) so nobody gets fined halfway through today.
     const pastCompletedDays = Math.max(0, currentMissionDay - 1);
     const loggedDays = Object.keys(dailyLogs).map(Number);
